@@ -9,14 +9,21 @@ using namespace std;
 	 - arrayEntero: el array a ordenar
 	 - tamano: tamaño del array*/
 void ordenarArray(int * arrayEntero, int tamano);
+
+/*Funcion para mostrar en pantalla un array de enteros.
+ Parámetros:
+	 - arrayEntero: el array a mostrar
+	 - tamano: tamaño del array*/
 void mostrarArray(int * arrayEntero, int tamano);
 
 //Función principal donde creamos y ordenamos arrays
 void main()
 {
 	int tamano = 0;//en esta variable pondremos el tamaño del array
-	int timeInicio = 0;//variable donde se guarda el tiempo el que que se inicia un algoritmo
-	int timeFinal = 0;//variable donde se guarda el tiempo en el finaliza un algoritmo
+	float timeInicio = 0;//variable donde se guarda el tiempo el que que se inicia un algoritmo
+	float timeFinal = 0;//variable donde se guarda el tiempo en el finaliza un algoritmo
+	float timeResultado = 0;//variable donde guardamos la diferencia de tiempo en segundos. 
+
 	/*el usuario introduce el tamaño del array*/
 	do
 	{
@@ -37,15 +44,21 @@ void main()
 
 	/*mostramos el array*/
 	cout << endl << "el vector original es el siguiente: " << endl;
-	mostrarArray(arrayEnteros, tamano);
+	//mostrarArray(arrayEnteros, tamano);
 	cout << endl;
 
 	timeInicio=clock();
 	ordenarArray(arrayEnteros, tamano);
 	timeFinal=clock();
+	timeResultado= (timeFinal-timeInicio)/1000;
+	
+	cout << "Cloks de inicio con ordenacion por seleccion: " << timeInicio << endl;
+	cout << "Cloks de fin con ordenacion por seleccion: " << timeFinal << endl;
+	cout << "CLOCKS_PER_SEC: " << CLOCKS_PER_SEC << endl; 
+	cout << "Con ordenacion por seleccion he tardado " << timeResultado << " segundos" << endl;
 
 	cout << endl << "el vector ordenado: " << endl;
-	mostrarArray(arrayEnteros, tamano);
+	//mostrarArray(arrayEnteros, tamano);
 	cout << endl;
 
 	free (arrayEnteros);
@@ -61,9 +74,12 @@ void mostrarArray(int * arrayEntero, int tamano)
 
 void ordenarArray(int * arrayEntero, int tamano)
 {
-	 int minimo = 0;//variable donde guardaremos la posicion de
-	 int enteroAuxiliar = 0;
+	 int minimo = 0;//variable donde guardaremos la posicion del entero mínimo de esa iteracción
+	 int enteroAuxiliar = 0;//variable para poder intercambiar valores
 
+	 /*metodo de ordenación por selección. En cada iteracción buscamos el entero minimo y lo guardamos 
+	 en la posición i del array. En las siguientes iteracciones buscamos desde i+1 para no usar el último 
+	 mínimo. */
      for (int i = 0 ; i < tamano -1; i++) 
      {
 		 minimo = i;
