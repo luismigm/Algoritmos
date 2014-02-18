@@ -8,13 +8,16 @@ using namespace std;
  Parámetros:
 	 - arrayEntero: el array a ordenar
 	 - tamano: tamaño del array*/
-void ordenarArray(int * arrayEntero, int tamano);
+void ordenarSeleccion(int * arrayEntero, int tamano);
 
 /*Funcion para mostrar en pantalla un array de enteros.
  Parámetros:
 	 - arrayEntero: el array a mostrar
 	 - tamano: tamaño del array*/
 void mostrarArray(int * arrayEntero, int tamano);
+
+//funcion necesaria para usar el qsort
+int compare (const void * a, const void * b);
 
 //Función principal donde creamos y ordenamos arrays
 void main()
@@ -39,7 +42,7 @@ void main()
 	/*rellenamos el array con números aleatorios*/
 	for(int i = 0; i < tamano; i++)
 	{
-		arrayEnteros[i]=rand();
+		arrayEnteros[i] = rand();
 	}
 
 	/*mostramos el array*/
@@ -47,8 +50,8 @@ void main()
 	//mostrarArray(arrayEnteros, tamano);
 	cout << endl;
 
-	timeInicio=clock();
-	ordenarArray(arrayEnteros, tamano);
+	/*timeInicio=clock();
+	ordenarSeleccion(arrayEnteros, tamano);
 	timeFinal=clock();
 	timeResultado= (timeFinal-timeInicio)/1000;
 	
@@ -59,7 +62,21 @@ void main()
 
 	cout << endl << "el vector ordenado: " << endl;
 	//mostrarArray(arrayEnteros, tamano);
-	cout << endl;
+	cout << endl;*/
+
+	
+
+	timeInicio=clock();
+	qsort (arrayEnteros, tamano, sizeof(int), compare);
+	timeFinal=clock();
+	timeResultado= (timeFinal-timeInicio)/1000;
+	
+	cout << "Cloks de inicio con ordenacion por seleccion: " << timeInicio << endl;
+	cout << "Cloks de fin con ordenacion por seleccion: " << timeFinal << endl;
+	cout << "CLOCKS_PER_SEC: " << CLOCKS_PER_SEC << endl; 
+	cout << "Con ordenacion por seleccion he tardado " << timeResultado << " segundos" << endl;
+
+	cout << endl << "el vector ordenado: " << endl;
 
 	free (arrayEnteros);
 }
@@ -72,7 +89,7 @@ void mostrarArray(int * arrayEntero, int tamano)
 	}
 }
 
-void ordenarArray(int * arrayEntero, int tamano)
+void ordenarSeleccion(int * arrayEntero, int tamano)
 {
 	 int minimo = 0;//variable donde guardaremos la posicion del entero mínimo de esa iteracción
 	 int enteroAuxiliar = 0;//variable para poder intercambiar valores
@@ -94,4 +111,10 @@ void ordenarArray(int * arrayEntero, int tamano)
 		 arrayEntero[minimo] = arrayEntero[i];
 		 arrayEntero[i] = enteroAuxiliar ;
     }
+}
+
+//funcion necesaria para usar el qsort
+int compare (const void * a, const void * b)
+{
+  return ( *(int*)a - *(int*)b );
 }
