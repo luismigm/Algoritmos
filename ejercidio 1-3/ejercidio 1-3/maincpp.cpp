@@ -18,6 +18,8 @@ void mostrarArray(int * arrayEntero, int tamano);
 
 //funcion necesaria para usar el qsort
 int compare (const void * a, const void * b);
+//funcion para copiar arrays de enteros
+int * copiarEnteros(int const * arrayEntero, int tamano);
 
 //Función principal donde creamos y ordenamos arrays
 void main()
@@ -46,39 +48,50 @@ void main()
 	}
 
 	/*mostramos el array*/
-	cout << endl << "el vector original es el siguiente: " << endl;
+	cout << endl << "El vector original es el siguiente: " << endl;
 	//mostrarArray(arrayEnteros, tamano);
 	cout << endl;
 
-	/*timeInicio=clock();
-	ordenarSeleccion(arrayEnteros, tamano);
-	timeFinal=clock();
-	timeResultado= (timeFinal-timeInicio)/1000;
+
+	//creamos un array auxiliar para ordenarlo por selección y dejar el original para futuros usos
+	int * arrayAuxiliar = copiarEnteros(arrayEnteros, tamano);
 	
-	cout << "Cloks de inicio con ordenacion por seleccion: " << timeInicio << endl;
-	cout << "Cloks de fin con ordenacion por seleccion: " << timeFinal << endl;
-	cout << "CLOCKS_PER_SEC: " << CLOCKS_PER_SEC << endl; 
-	cout << "Con ordenacion por seleccion he tardado " << timeResultado << " segundos" << endl;
-
-	cout << endl << "el vector ordenado: " << endl;
-	//mostrarArray(arrayEnteros, tamano);
-	cout << endl;*/
-
-	
-
+	//ordenamos el array auxiliar por selección y comprobamos cuanto tiempo ha tardado en hacerlo mostrándolo por pantalla
 	timeInicio=clock();
-	qsort (arrayEnteros, tamano, sizeof(int), compare);
+	ordenarSeleccion(arrayAuxiliar, tamano);
 	timeFinal=clock();
 	timeResultado= (timeFinal-timeInicio)/1000;
 	
 	cout << "Cloks de inicio con ordenacion por seleccion: " << timeInicio << endl;
 	cout << "Cloks de fin con ordenacion por seleccion: " << timeFinal << endl;
 	cout << "CLOCKS_PER_SEC: " << CLOCKS_PER_SEC << endl; 
-	cout << "Con ordenacion por seleccion he tardado " << timeResultado << " segundos" << endl;
+	cout << "Con ordenacion por seleccion he tardado " << timeResultado << " segundos en ordenarlo." << endl;
+	cout <<  "El vector resultado es: " << endl;
+	//mostrarArray(arrayAuxiliar, tamano);
+	cout << endl << endl;
 
-	cout << endl << "el vector ordenado: " << endl;
+	//liberamos la memoria que hemos utilizado con el array auxiliar
+	free(arrayAuxiliar);
+
+	//volvemos a copiar el array original
+	arrayAuxiliar = copiarEnteros(arrayEnteros, tamano);
+
+	//ordenamos el array auxiliar por QuickSort y comprobamos cuanto tiempo ha tardado en hacerlo mostrándolo por pantalla
+	timeInicio=clock();
+	qsort (arrayAuxiliar, tamano, sizeof(int), compare);
+	timeFinal=clock();
+	timeResultado= (timeFinal-timeInicio)/1000;
+	
+	cout << "Cloks de inicio con ordenacion por QuickSort: " << timeInicio << endl;
+	cout << "Cloks de fin con ordenacion por QuickSort: " << timeFinal << endl;
+	cout << "CLOCKS_PER_SEC: " << CLOCKS_PER_SEC << endl; 
+	cout << "Con ordenacion por QuickSort he tardado " << timeResultado << " segundos en ordenarlo." << endl;
+	cout <<  "el vector resultado es: " << endl;
+	//mostrarArray(arrayAuxiliar, tamano);
+	cout << endl << endl;
 
 	free (arrayEnteros);
+	free(arrayAuxiliar);
 }
 
 void mostrarArray(int * arrayEntero, int tamano)
@@ -117,4 +130,12 @@ void ordenarSeleccion(int * arrayEntero, int tamano)
 int compare (const void * a, const void * b)
 {
   return ( *(int*)a - *(int*)b );
+}
+
+//funcion para copiar arrays de enteros
+int * copiarEnteros(int const * arrayEntero, int tamano)
+{
+   int * punterocopia =  (int *) malloc (tamano*sizeof(int));
+   memcpy(punterocopia, arrayEntero, tamano * sizeof(int));
+   return punterocopia;
 }
